@@ -36,3 +36,6 @@ sudo nano /etc/fstab
 #auto start samba
 sudo su
 update-rc.d samba defaults
+
+http://www.howtogeek.com/146410/how-to-automate-your-always-on-raspberry-pi-download-box/all/
+http://www.howtogeek.com/139433/how-to-turn-a-raspberry-pi-into-a-low-power-network-storage-device/
