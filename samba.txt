@@ -1,0 +1,38 @@
+#install ntfs drives
+sudo apt-get install ntfs-3g
+
+#
+sudo fdisk -l
+sudo mkdir /media/USBHDD1
+sudo umount /dev/sdb1
+sudo mount -t auto /dev/sda1 /media/USBHDD1
+sudo mkdir /media/USBHDD1/shares
+
+# install Samba
+sudo apt-get install samba samba-common-bin
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.old
+sudo nano /etc/samba/smb.conf
+
+security = user
+[Backup]
+comment = Backup Folder
+path = /media/USBHDD1/shares
+valid users = @users
+force group = users
+create mask = 0660
+directory mask = 0771
+read only = no
+
+sudo /etc/init.d/samba restart
+
+sudo smbpasswd -a pi
+
+#verificar se temos acesso á pasta na rede?
+
+#configure our Pi so that when it restarts it will automatically mount the external hard drives
+sudo nano /etc/fstab
+/dev/sda1 /media/USBHDD1 auto noatime 0 0
+
+#auto start samba
+sudo su
+update-rc.d samba defaults

@@ -1,9 +1,0 @@
-#install ntfs drives
-sudo apt-get install ntfs-3g
-
-#
-sudo fdisk -l
-sudo mkdir /media/USBHDD1
-sudo umount /dev/sdb1
-sudo mount -t auto /dev/sda1 /media/USBHDD1
-sudo mkdir /media/USBHDD1/shares
