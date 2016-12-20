@@ -1,0 +1,69 @@
+sudo apt-get install deluged
+sudo apt-get install deluge-console
+deluged
+sudo pkill deluged
+cp ~/.config/deluge/auth ~/.config/deluge/auth.old
+nano ~/.config/deluge/auth
+
+# Once inside nano, you’ll need to add a line to the bottom of the configuration file with the following convention:
+pi:raspberry:10
+
+deluged
+deluge-console
+
+config -s allow_remote True
+config allow_remote
+exit
+
+sudo pkill deluged
+deluged
+
+
+
+######## Setting up Deluge for WebUI Access
+
+sudo apt-get install python-mako
+sudo apt-get install deluge-web
+deluge-web
+
+# http://192.168.1.2:8112/ pass: deluge
+
+sudo pkill deluge-web
+
+
+
+######## Configuring Your Download Location
+
+sudo mkdir /media/USBHDD1/shares/torrents
+sudo mkdir /media/USBHDD1/shares/torrents/downloading
+sudo mkdir /media/USBHDD1/shares/torrents/completed
+sudo mkdir /media/USBHDD1/shares/torrents/completed/TvShows
+sudo mkdir /media/USBHDD1/shares/torrents/completed/Movies
+sudo mkdir /media/USBHDD1/shares/torrents/completed/Musics
+sudo mkdir /media/USBHDD1/shares/torrents/watch
+sudo mkdir /media/USBHDD1/shares/torrents/torrent-backups
+
+sudo mkdir /media/USBHDD1/shares/Movies
+sudo mkdir /media/USBHDD1/shares/Musics
+sudo mkdir /media/USBHDD1/shares/Photos
+sudo mkdir /media/USBHDD1/shares/TvShows
+
+# adicionar caminhos ao deluge
+
+
+
+######## Configuring Deluge to Run on Startup
+
+sudo wget -O /etc/default/deluge-daemon http://www.howtogeek.com/wp-content/uploads/gg/up/sshot5151a8c86fb85.txt
+sudo nano /etc/default/deluge-daemon
+
+# change user to "pi"
+
+sudo chmod 755 /etc/default/deluge-daemon
+sudo update-rc.d deluge-daemon defaults
+sudo wget -O /etc/init.d/deluge-daemon http://www.howtogeek.com/wp-content/uploads/gg/up/sshot5151aa042ad11.txt
+sudo chmod 755 /etc/init.d/deluge-daemon
+sudo update-rc.d deluge-daemon defaults
+
+
+http://www.howtogeek.com/142044/how-to-turn-a-raspberry-pi-into-an-always-on-bittorrent-box/
