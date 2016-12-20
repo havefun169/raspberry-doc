@@ -1,0 +1,35 @@
+# Install SickRage Raspberry Pi
+
+sudo apt-get install python-pip python-dev git libssl-dev libxslt1-dev libxslt1.1 libxml2-dev libxml2 libssl-dev libffi-dev -y
+sudo pip install pyopenssl
+
+sudo apt-get install build-essential -y
+wget http://rarlab.com/rar/unrarsrc-5.2.6.tar.gz
+tar -xvf unrarsrc-5.2.6.tar.gz
+cd unrar
+sudo make -f makefile
+sudo install -v -m755 unrar /usr/bin
+
+sudo git clone https://github.com/SickRage/SickRage.git /opt/sickrage
+sudo chown -R pi:pi /opt/sickrage
+
+python /opt/sickrage/SickBeard.py -d
+
+sudo nano /etc/default/sickrage
+
+# add to file
+
+SR_USER=pi
+SR_HOME=/opt/sickrage
+SR_DATA=/opt/sickrage
+SR_PIDFILE=/home/pi/.sickrage.pid
+
+
+sudo cp /opt/sickrage/runscripts/init.ubuntu /etc/init.d/sickrage
+sudo chmod +x /etc/init.d/sickrage
+sudo update-rc.d sickrage defaults
+sudo service sickrage start
+
+https://couchpota.to/
+https://www.google.pt/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=sickrage+raspberry+pi
+http://www.htpcguides.com/install-sickrage-raspberry-pi-usenet-torrent-tv/
