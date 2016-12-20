@@ -1,0 +1,71 @@
+# kodi
+# You can add the repo by editing /etc/apt/sources.list
+
+deb http://pipplware.pplware.pt/pipplware/dists/jessie/main/binary /
+
+# Than add the key:
+wget -O - http://pipplware.pplware.pt/pipplware/key.asc | sudo apt-key add -
+
+# And update, upgrade and install Kodi:
+sudo apt-get update && sudo apt-get dist-upgrade
+sudo apt-get install kodi
+
+# optional
+# To install PVRs you can execute the following command to list all PVRs available:
+apt-cache search kodi-pvr
+
+# optional
+# and then install what you want, for example:
+sudo apt-get install kodi-pvr-iptvsimple
+
+# We have to create the group "input" if it doesn't exist.
+sudo addgroup --system input
+
+# Create & edit the following file:
+sudo nano /etc/udev/rules.d/99-input.rules
+
+# enter the following text and save it:
+
+SUBSYSTEM==input, GROUP=input, MODE=0660
+KERNEL==tty[0-9]*, GROUP=tty, MODE=0660
+
+# Create & edit the following file:
+sudo nano /etc/udev/rules.d/10-permissions.rules
+
+
+# enter this text and save it:
+
+# input
+KERNEL=="mouse*|mice|event*",   MODE="0660", GROUP="input"
+KERNEL=="ts[0-9]*|uinput",     MODE="0660", GROUP="input"
+KERNEL==js[0-9]*,             MODE=0660, GROUP=input
+# tty
+KERNEL==tty[0-9]*,            MODE=0666
+# vchiq
+SUBSYSTEM==vchiq,  GROUP=video, MODE=0660
+
+# run the following commands for user pi (if you haven't changed your user name):
+sudo usermod -a -G audio pi
+sudo usermod -a -G video pi
+sudo usermod -a -G input pi
+sudo usermod -a -G dialout pi
+sudo usermod -a -G plugdev pi
+sudo usermod -a -G tty pi
+
+# to play full HD video in Kodi, you have to set
+sudo nano /boot/config.txt
+
+# add the line
+
+gpu_mem_1024=512
+
+# restart
+sudo shutdown -r now
+kodi-standalone
+
+# start like service
+kodi &
+
+#auto start?
+sudo nano /etc/default/kodi
+ENABLED=1
