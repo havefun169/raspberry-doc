@@ -66,6 +66,15 @@ kodi-standalone
 # start like service
 kodi &
 
-#auto start?
+#auto start? - KODI 16 or below
 sudo nano /etc/default/kodi
 ENABLED=1
+
+#To start kodi 17 automatically
+#Run below command to add Kodi upstart script
+
+sudo wget -O /etc/init.d/kodi https://gist.githubusercontent.com/shyamjos/60ea61fd8932fd5c868c80543b34f033/raw;sudo chmod +x /etc/init.d/kodi
+
+#Then enable upstart script by running below command
+
+sudo systemctl enable kodi
