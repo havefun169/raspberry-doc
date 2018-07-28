@@ -1,0 +1,9 @@
+
+### init config
+sudo raspi-config
+ - ssh
+ - wifi 
+ - time-zone
+ - hostname
+    - piNAS
+

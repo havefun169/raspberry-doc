@@ -1,0 +1,7 @@
+# Download lists from the repositories and "updates" them
+sudo apt-get update
+
+# Upgrade system
+sudo apt-get upgrade -y -f
+sudo apt-get dist-upgrade
+sudo apt-get autoremove

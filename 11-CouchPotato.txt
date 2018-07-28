@@ -1,0 +1,53 @@
+# Install CouchPotato
+sudo apt-get install python
+sudo apt-get install python-pip
+sudo apt-get install python-dev
+sudo apt-get install git
+sudo apt-get install libffi-dev
+sudo apt-get install libssl-dev
+sudo apt-get install zlib1g-dev 
+sudo apt-get install libxslt1-dev
+sudo apt-get install libxml2-dev
+sudo apt-get install build-essential
+
+# lxml takes a long time
+sudo pip install lxml
+sudo pip install cryptography
+sudo pip install pyopenssl
+
+# clone CouchPotato repo
+sudo git clone http://github.com/RuudBurger/CouchPotatoServer /opt/CouchPotato
+
+# give perms to pi
+sudo chown -R pi:pi /opt/CouchPotato
+
+# start CouchPotato
+python /opt/CouchPotato/CouchPotato.py
+
+# test at http://192.168.1.21:5050
+
+# auto run CouchPotato
+sudo nano /etc/default/couchpotato
+
+# add to file
+CP_HOME=/opt/CouchPotato
+CP_USER=pi
+CP_PIDFILE=/home/pi/.couchpotato.pid
+CP_DATA=/opt/CouchPotato
+
+# copy the auto start script
+sudo cp /opt/CouchPotato/init/ubuntu /etc/init.d/couchpotato
+
+# make the CouchPotato init.d script executable
+sudo chmod +x /etc/init.d/couchpotato
+
+# enable the CouchPotato init.d script to start on boot
+sudo update-rc.d couchpotato defaults
+
+# restart
+sudo shutdown -r now
+
+# check if service is running
+systemctl status couchpotato.service
+
+#https://www.htpcguides.com/install-couchpotato-raspberry-pi-raspbian/

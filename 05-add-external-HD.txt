@@ -1,0 +1,32 @@
+#install ntfs drives
+sudo apt-get install ntfs-3g
+
+
+# find the HD /dev/sda1
+sudo fdisk -l
+
+# make mount point dir and mount the HD
+sudo mkdir /media/USBHDD1
+sudo mount /dev/sda1 /media/USBHDD1
+
+# find the disk uuid
+sudo blkid | grep sda
+
+# auto mount
+sudo nano /etc/fstab
+
+# add line > change the UUID
+/dev/disk/by-uuid/F474B7AA74B76DCC /media/USBHDD1 auto defaults,noatime 0 1
+
+# restart
+sudo shutdown -r now
+
+# check if the HD is mounted
+cd /media/USBHDD1
+
+# check disk and size
+df -h
+
+
+https://www.raspberrypi.org/forums/viewtopic.php?t=163605
+https://www.howtogeek.com/139433/how-to-turn-a-raspberry-pi-into-a-low-power-network-storage-device/

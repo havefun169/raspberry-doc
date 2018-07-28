@@ -1,0 +1,41 @@
+# add crontab
+crontab -e
+
+# add line to file > cron will run at 4am
+0 4 * * * python /home/pi/scripts/reboot.py
+
+# create python script
+touch /home/pi/scripts/reboot.py
+
+# add to file
+nano /home/pi/scripts/reboot.py
+
+#!/usr/bin/python
+# reboot.py
+import datetime
+import logging
+import os
+
+def main():
+    logRebootTime()
+    reboot()
+
+def logRebootTime():
+    now = datetime.datetime.now()
+    logging.basicConfig(filename='cron.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+    logging.info('Reboot')
+
+def reboot():
+    os.system('sudo shutdown -r now')
+
+if __name__ == '__main__':
+    main()
+
+# sets the raspberry pi detect the HDMI mode even if no HDMI monitor off 
+# this command must be done with the tv on and the rasp. connected
+sudo tvservice -d /boot/edid.dat
+sudo nano /boot/config.txt
+
+# add to file
+hdmi_force_hotplug=1
+hdmi_edid_file=1

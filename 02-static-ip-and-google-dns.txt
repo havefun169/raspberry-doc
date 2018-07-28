@@ -1,0 +1,33 @@
+### static ip and dns
+
+# Edit to set the ip
+sudo nano /etc/dhcpcd.conf
+
+interface eth0
+static ip_address=192.168.1.21/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.1.1
+static domain_name_servers=8.8.8.8 8.8.4.4
+
+interface wlan0
+static ip_address=192.168.1.21/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.1.1
+static domain_name_servers=8.8.8.8 8.8.4.4
+
+# restart
+sudo shutdown -r now
+
+# after check if all is right
+# find current ip
+ip -4 addr show | grep global
+
+# Find the address of your router (or gateway)
+ip route | grep default | awk '{print $3}'
+
+# Find current DNS
+cat /etc/resolv.conf
+
+
+
+# https://raspberrypi.stackexchange.com/questions/37920/how-do-i-set-up-networking-wifi-static-ip-address/74428#74428

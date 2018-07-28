@@ -1,0 +1,35 @@
+# install samba
+sudo apt-get install samba samba-common-bin
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.old
+sudo nano /etc/samba/smb.conf
+
+# add to file
+
+security = user
+
+[storage]
+    comment = Storage share
+    path = /media/USBHDD1/shares
+    browseable = yes
+    writeable = yes
+    public = no
+    guest ok = no
+    guest only = no
+    create mask = 0775
+    directory mask = 0775
+    read only = no
+
+# restart samba
+sudo /etc/init.d/samba restart
+
+# add default user pi to samba
+sudo smbpasswd -a pi
+
+#check access from windows > \\192.168.1.21 
+
+#auto start samba
+sudo su
+update-rc.d samba defaults
+
+# restart
+sudo shutdown -r now

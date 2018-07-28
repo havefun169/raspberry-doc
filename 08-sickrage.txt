@@ -1,0 +1,71 @@
+# Install SickRage
+sudo apt-get install python-pip
+sudo apt-get install python-dev
+sudo apt-get install git
+sudo apt-get install libssl-dev
+sudo apt-get install libxslt1-dev
+sudo apt-get install libxslt1.1
+sudo apt-get install libxml2-dev
+sudo apt-get install libxml2
+sudo apt-get install libssl-dev
+sudo apt-get install libffi-dev
+sudo pip install pyopenssl
+sudo apt-get install build-essential
+
+# install unrar
+wget http://rarlab.com/rar/unrarsrc-5.2.6.tar.gz
+tar -xvf unrarsrc-5.2.6.tar.gz
+cd unrar
+sudo make -f makefile
+sudo install -v -m755 unrar /usr/bin
+
+# install nodejs > change path with the right version
+wget https://nodejs.org/dist/latest-v10.x/node-v10.7.0-linux-armv6l.tar.gz
+tar -xvf node-v10.7.0-linux-armv6l.tar.gz
+sudo mkdir /usr/local/node/
+sudo cp -r node-v10.7.0-linux-armv6l/* /usr/local/node/
+
+PATH=$PATH:/usr/local/node/bin
+export PATH
+
+sudo ln -s /usr/local/node/bin/node /usr/bin/node
+sudo ln -s /usr/local/node/lib/node /usr/lib/node
+sudo ln -s /usr/local/node/bin/npm /usr/bin/npm
+sudo ln -s /usr/local/node/bin/node-waf /usr/bin/node-waf
+
+
+# clone sickrage repo
+sudo git clone https://github.com/SickRage/SickRage.git /opt/sickrage
+
+# give perms to pi
+sudo chown -R pi:pi /opt/sickrage
+
+# init sickrage 
+python /opt/sickrage/SickBeard.py -d
+
+# configure sickrage 
+sudo nano /etc/default/sickrage
+
+# add to file
+
+SR_USER=pi
+SR_HOME=/opt/sickrage
+SR_DATA=/opt/sickrage
+
+# auto run sickrage 
+sudo cp /opt/sickrage/runscripts/init.ubuntu /etc/init.d/sickrage
+sudo chmod +x /etc/init.d/sickrage
+sudo update-rc.d sickrage defaults
+sudo service sickrage start
+
+# test at http://192.168.1.21:8081/home/
+
+# restart
+sudo shutdown -r now
+
+https://couchpota.to/
+https://www.google.pt/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=sickrage+raspberry+pi
+http://www.htpcguides.com/install-sickrage-raspberry-pi-usenet-torrent-tv/
+
+
+SR_PIDFILE=/home/pi/.sickrage.pid

@@ -1,0 +1,83 @@
+# install kodi
+sudo apt-get install kodi
+
+# search for addons
+apt-cache search kodi
+
+# install some addons
+sudo apt-get install kodi-peripheral-joystick kodi-pvr-iptvsimple kodi-inputstream-adaptive kodi-inputstream-rtmp
+
+
+# set min ram to gpu > Advanced Options > Memory Split > 256
+sudo raspi-config
+sudo nano /boot/config.txt
+
+# add to file
+gpu_mem_1024=512
+start_x=1
+
+# add permissions to kodi
+# We have to create the group "input" if it doesn't exist.
+sudo addgroup --system input
+
+# Create & edit the following file:
+sudo nano /etc/udev/rules.d/99-input.rules
+
+# enter the following text and save it:
+
+SUBSYSTEM==input, GROUP=input, MODE=0660
+KERNEL==tty[0-9]*, GROUP=tty, MODE=0660
+
+# Create & edit the following file:
+sudo nano /etc/udev/rules.d/10-permissions.rules
+
+
+# enter this text and save it:
+
+# input
+KERNEL=="mouse*|mice|event*",   MODE="0660", GROUP="input"
+KERNEL=="ts[0-9]*|uinput",     MODE="0660", GROUP="input"
+KERNEL==js[0-9]*,             MODE=0660, GROUP=input
+# tty
+KERNEL==tty[0-9]*,            MODE=0666
+# vchiq
+SUBSYSTEM==vchiq,  GROUP=video, MODE=0660
+
+# run the following commands for user pi (if you haven't changed your user name):
+sudo usermod -a -G audio pi
+sudo usermod -a -G video pi
+sudo usermod -a -G input pi
+sudo usermod -a -G dialout pi
+sudo usermod -a -G plugdev pi
+sudo usermod -a -G tty pi
+
+# auto start kodi
+sudo tee -a /lib/systemd/system/kodi.service <<_EOF_
+
+# add commands > Press Enter after paste
+
+[Unit]
+Description = Kodi Media Center
+After = remote-fs.target network-online.target
+Wants = network-online.target
+
+[Service]
+User = pi
+Group = pi
+Type = simple
+ExecStart = /usr/bin/kodi
+Restart = on-abort
+RestartSec = 5
+
+[Install]
+WantedBy = multi-user.target
+_EOF_
+
+# init the service
+sudo systemctl enable kodi.service
+
+# restart
+sudo shutdown -r now
+
+
+https://www.raspberrypi.org/forums/viewtopic.php?t=192499
