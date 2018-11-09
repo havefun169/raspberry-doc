@@ -35,7 +35,7 @@ sudo ln -s /usr/local/node/bin/node-waf /usr/bin/node-waf
 
 
 # clone sickrage repo
-sudo git clone https://github.com/SickRage/SickRage.git /opt/sickrage
+sudo git clone https://github.com/SickChill/SickChill.git /opt/sickrage
 
 # give perms to pi
 sudo chown -R pi:pi /opt/sickrage
